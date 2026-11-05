@@ -4,7 +4,7 @@ An interactive, Desmos-style graphing tool for seeing linear and affine transfor
 
 ## Running it
 
-No install or build step. Open `index.html` in a browser. To host it, upload the folder to any static host (e.g. GitHub Pages).
+No install or build step. Open `matrix-grapher.html` in a browser. To host it, upload the folder to any static host (e.g. GitHub Pages).
 
 Run the math tests with Node: `node tests/math.test.js`
 
@@ -22,7 +22,7 @@ Run the math tests with Node: `node tests/math.test.js`
 
 | File | Purpose |
 |---|---|
-| `index.html` | Page layout: sidebar, graph canvas, zoom buttons, help dialog |
+| `matrix-grapher.html` | Page layout: sidebar, graph canvas, zoom buttons, help dialog |
 | `style.css` | Desmos-like look |
 | `math.js` | DOM-free math: expression evaluator, geometry parser, `classify` (what does this matrix do?), `interpolate` (animation), `applyToGeom`. Browser (`window.MG`) and Node |
 | `app.js` | UI: rows, transformation cards, canvas drawing, dragging, animation, autosave |
