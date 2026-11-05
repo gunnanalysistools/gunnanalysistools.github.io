@@ -22,6 +22,7 @@ button { font: inherit; cursor: pointer; }
 #addBtn:hover { background: #5b4bd6; }
 .icon-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: #fff; color: var(--muted); font-weight: 700; }
 .icon-btn:hover { background: var(--accent-soft); color: var(--accent); }
+#backBtn { display: flex; align-items: center; justify-content: center; flex: none; text-decoration: none; }
 
 #list { flex: 1; overflow-y: auto; }
 .row { display: flex; border-bottom: 1px solid var(--border); position: relative; min-height: 64px; }

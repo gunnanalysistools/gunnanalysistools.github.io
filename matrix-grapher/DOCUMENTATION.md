@@ -51,7 +51,7 @@ Press **+ matrix transformation** under a shape. A card appears with a 3×3 matr
 - **Dashed paths** draws a line from each point to its image (always on for matrices that flatten onto a line).
 - Add several transformations to one shape to **chain** them: each applies to the previous one's result.
 - The colored circle hides/shows the original or each image.
-- **Colors:** each shape has one color. The original is drawn as a light tint of it, the first transformed image in the full color, and each further chained step a bit darker, so before/after is easy to tell apart.
+- **Colors:** each shape has one color. The original is drawn as a light tint of it, the first transformed image in the full color, and each further chained step a bit darker, so before/after is easy to tell apart. The original is also drawn solid with filled points, and every image dashed with hollow points.
 - The empty row at the bottom has no delete button (there is always one empty row ready).
 
 ### Navigation

@@ -132,23 +132,25 @@
     pts.forEach((p, i) => { const [x, y] = toScreen(p[0], p[1]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
     if (closed) ctx.closePath();
   }
-  function dot(p, color, r) {
+  function dot(p, color, r, hollow) {
     const [x, y] = toScreen(p[0], p[1]);
-    ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fillStyle = color; ctx.fill();
-    ctx.lineWidth = 1.5; ctx.strokeStyle = '#fff'; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fillStyle = hollow ? '#fff' : color; ctx.fill();
+    ctx.lineWidth = hollow ? 2.5 : 1.5; ctx.strokeStyle = hollow ? color : '#fff'; ctx.stroke();
   }
-  function drawGeom(g, color) {
+  // Originals are solid with filled points; images are dashed with hollow points.
+  function drawGeom(g, color, isImage) {
     ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    const dash = isImage ? [9, 8] : [];
     if (g.type === 'line') {
       const L = (W + H + Math.hypot(...toScreen(g.p[0], g.p[1]))) / state.view.scale * 3 / Math.hypot(g.d[0], g.d[1]);
       pathPts([[g.p[0] - g.d[0] * L, g.p[1] - g.d[1] * L], [g.p[0] + g.d[0] * L, g.p[1] + g.d[1] * L]], false);
-      ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke();
+      ctx.setLineDash(dash); ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke(); ctx.setLineDash([]);
     } else if (g.type === 'poly') {
       pathPts(g.pts, g.closed);
-      if (g.closed) { ctx.fillStyle = color + '33'; ctx.fill(); }
-      ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke();
-      g.pts.forEach(p => dot(p, color, 5));
-    } else if (g.type === 'point') dot(g.pts[0], color, 6);
+      if (g.closed) { ctx.fillStyle = color + (isImage ? '1a' : '33'); ctx.fill(); }
+      ctx.setLineDash(dash); ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.stroke(); ctx.setLineDash([]);
+      g.pts.forEach(p => dot(p, color, 5, isImage));
+    } else if (g.type === 'point') dot(g.pts[0], color, 6, isImage);
   }
   function anchorOf(g) {
     if (g.pts) return [g.pts.reduce((s, p) => s + p[0], 0) / g.pts.length, g.pts.reduce((s, p) => s + p[1], 0) / g.pts.length];
@@ -180,7 +182,7 @@
     // images, and names if asked for
     for (const { tf, img } of steps) {
       if (!tf.visible) continue;
-      drawGeom(img, tf.color);
+      drawGeom(img, tf.color, true);
       if (img.pts) img.pts.forEach(p => handles.push({ p, draggable: false }));
       if (tf.showName) {
         const [x, y] = toScreen(...anchorOf(img)), name = classify(tf.M).name;
